@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 from numba import njit
@@ -50,6 +51,31 @@ def discretize(series, resolution):
 
 ### Symbolic Discretization Functions ###
 
+COMMON_RESOLUTIONS = [256, 512, 1024, 2048]
+
+
+def save_char_map_to_file(char_map, resolution):
+    """Saves the character map to a .txt file for the given resolution."""
+    path = os.path.join("./character_data", f"char_map_{resolution}.txt")
+    with open(path, "w") as f:
+        f.write(char_map)
+
+
+def load_char_map_from_file(resolution):
+    """Loads the character map from a .txt file for the given resolution."""
+    path = os.path.join("./character_data", f"char_map_{resolution}.txt")
+    with open(path, "r") as f:
+        return f.read()
+
+
+def precompute_common_char_maps():
+    """Computes and saves char maps for common resolutions."""
+    for resolution in COMMON_RESOLUTIONS:
+        char_map = load_top_characters(
+            "./character_data/fixed_unicode_freq.csv", resolution
+        )
+        save_char_map_to_file(char_map, resolution)
+
 
 def load_top_characters(filename, num_chars):
     """Returns a string of the top characters from the given file."""
@@ -82,8 +108,14 @@ def load_top_characters(filename, num_chars):
 
 def get_char_map(resolution):
     """Returns a character map for the given resolution."""
-    char_map = load_top_characters("fixed_unicode_freq.csv", resolution)
-    return char_map
+
+    # Check if char map for this resolution already exists, if yes load from file
+    path = os.path.join("./character_data", f"char_map_{resolution}.txt")
+    if resolution in COMMON_RESOLUTIONS and os.path.exists(path):
+        return load_char_map_from_file(resolution)
+
+    # Otherwise, generate it on the fly
+    return load_top_characters("./character_data/fixed_unicode_freq.csv", resolution)
 
 
 ### Main Discretization Functions ###

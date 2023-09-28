@@ -7,23 +7,24 @@ SYM-SIGD offers a novel approach to data discretization by utilizing sigmoid sta
 ### Example Demonstration of SYM-SIGD Discretization ###
 
 Given an original time series:
-
 ```python
-original_series = np.array([47.74208669, 47.80864911, 47.87534023, 47.94216033, 48.00910966,
-                           48.0761885 , 48.14339711, 48.21073577, 48.27820473, 48.34580428])
+original_series
+Output:
+[47.7421, 47.8086, 47.8753, 47.9422, 48.0091, 48.0762, 48.1434, 48.2107, 48.2782, 48.3458]
 ```
 
-After applying SYM-SIGD, we get a symbolic representation of the series:
-
+After applying SYM-SIGD, we get the symbolic representation of the series:
 ```python
-symbolic_discretization = 'Гრრრहह日日日ص'
+symbolic_discretization
+Output:
+'Гრრრहह日日日ص'
 ```
 
 Decoding the symbolic representation, we obtain:
-
 ```python
-decoded_discretization = np.array([47.72336171, 47.88323436, 47.88323436, 47.88323436, 48.04310701,
-                                  48.04310701, 48.20297966, 48.20297966, 48.20297966, 48.36285231])
+decoded_discretization
+Output:
+[47.7234, 47.8832, 47.8832, 47.8832, 48.0431, 48.0431, 48.2030, 48.2030, 48.2030, 48.3629]
 ```
 
 This showcases the core functionality of the SYM-SIGD process. Though there's a slight variation between the original and decoded series, the overall shape and trend of the data is retained, making it useful for various applications where precision is not the absolute priority, but where data compression and symbolic representation are of value.
